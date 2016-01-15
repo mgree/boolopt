@@ -1,7 +1,7 @@
 """
 boolopt
 
-Version 1.0
+Version 1.1
 
 Copyright 2006 (c) Michael Greenberg.  NewBSD license, listed below.
 
@@ -594,7 +594,6 @@ class QuineMcCluskey(Functor):
         
         self.columns = list(props)
         self.columns.sort()
-
         self.table   = self.arrange(self.columns, self.dnf)
         self.primes  = self.find_prime_implicants(self.table, self.columns)
         self.exps    = self.expand(self.primes)
@@ -647,22 +646,17 @@ class QuineMcCluskey(Functor):
         """
 
         curr = list(table)
-        used = []
 
         while 1:
             next, mark = self.__table_pass(curr, columns)
 
             mark.sort()
             mark.reverse()
+
             if len(mark):
                 for m in mark:
-                    if curr[m] not in used:
-                        used.insert(len(used), curr[m])
                     del curr[m]
             else:
-                for u in used:
-                    try: curr.remove(u)
-                    except: continue
                 return curr
 
             for r in next:
